@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Sidebar component
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 使用技術列表
+1. React Hooks
+2. Redux
+3. SCSS / styled-components & themePrivider
+4. SCSS animation
+## 專案安裝與起始
+* 專案安裝
+    ```
+    npm install
+    ``` 
+* 專案起始
+    ```
+    npm run start
+    ``` 
+    
+## 專案資料夾架構（./src）
+* `/assets` 為素材區，包含：
+     * `/iconfont` 內擺放 [iconfont平台](https://icofont.com/) 下載的 icon 資料包。
+     * `/images` 內擺放圖片素材。
+---
+* `/components` 為所有專案中的組件放置處。
+---
+* `/store` 為 redux 架構的相關資料，包含：
+    * `/actions`：存放 actions 程式，目前拆成 UI、User 兩個情境。
+    * `/reducers`：存放 reducers 程式，目前拆成 UI、User 兩個情境。
+    * `/actionTypes.js`：action types 的定義都放置於此。
+---
+* `/styles`：為全域的樣式定義區，並且用 styled-components 做封裝。
+    * `globalStyle.js`：裡面有 reset 樣式與客製化的全域樣式。
+---
+* `/utils`
+    * `constant.js`： 主要放置程式面需要用到的 ***通用的型別定義***、***共用的 functions***、***共用的參數***。
+    * `constantStyle.js`：可以用來定義 ***樣式*** 中需要用到的參數設定，以及定義 styled-components 的 ***theme 物件*** 供 ThemeProvider 套用。
 
-## Available Scripts
 
-In the project directory, you can run:
+## 操作說明
 
-### `yarn start`
+### Sidebar 組件的資料入口
+1. 如果要查看 Sidebar 的結構資料可以直接到 `./src/store/reducers/uiReducer.js` 中的 `initState` 中查閱。
+2. 可以從 `./src/components/sidebar/SideBar.js` 中找照 Sidebar 的實作，目前直接透過 redux 運作將結構資料帶入 Sidebar 的 props 中，從 `./src/App.js` 可以看到:
+```
+// init sidebar state with
+const sidebarData = useSelector(store => store.ui.sidebarData)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+...
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<Sidebar data={sidebarData}></Sidebar>
+```
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 切換使用者
+目前實作的使用者定義在 `./src/utils/constant.js` 的 UserType 中：
 
-### `yarn build`
+```
+export const UserType = {
+    normal: 'normal',
+    pro: 'pro'
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+並且在 `./src/App.js` 中帶入 redux 去切換使用者身份，這邊使用「一般使用者」身份：
+```
+// 一般用戶
+useEffect(() => {
+    dispatch(setUserRole(UserType.normal))
+}, []);
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+可以直接改動 UserType 類別去呈現其他的使用者狀態（更改後記得重整畫面）：
+```
+// pro 用戶
+useEffect(() => {
+    dispatch(setUserRole(UserType.pro))
+}, []);
+``` 
