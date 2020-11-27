@@ -27,7 +27,7 @@ function App() {
   // init user type
   useEffect(() => {
     dispatch(setUserRole(UserType.pro))
-  }, []);
+  }, [dispatch]);
 
   
 

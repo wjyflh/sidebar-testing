@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled, { keyframes } from 'styled-components'
 
@@ -239,7 +239,6 @@ function SideBar ({...props}) {
     
     const dispatch = useDispatch()
     const isSidebarOpen = useSelector(store => store.ui.isSidebarOpen)
-    const [sideBarData, setSideBarData] = useState(data)
 
 
 
@@ -261,7 +260,7 @@ function SideBar ({...props}) {
                 {/* navs */}
                 <nav className="nav-container">
                     {
-                        renderSidebarItemList(sideBarData)
+                        renderSidebarItemList(data)
                     }
                 </nav>
             </div>
