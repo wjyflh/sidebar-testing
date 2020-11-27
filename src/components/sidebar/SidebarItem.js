@@ -76,7 +76,11 @@ const SideBarItemStyle = styled.li`
         /* actived by child id matching */
         &.actived {
             background: ${ props => props.theme.colors.colorfuls.primaryHover };
-        }       
+        }     
+        
+        &:hover {
+                background: ${ props => props.theme.colors.colorfuls.primaryHover };
+            }
 
         .icon {
             position: relative;
