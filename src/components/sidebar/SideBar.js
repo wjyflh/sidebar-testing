@@ -81,6 +81,17 @@ const SideBarStyle = styled.div`
 
                     & > li {
                         .mainlist-title-container {
+                            &.actived {
+                                &:before {
+                                    content: "";
+                                    position: absolute;
+                                    top: 0px;
+                                    left: 0px;
+                                    width: 10px;
+                                    height: 100%;
+                                    background: ${ props => props.theme.colors.colorfuls.sidebarItemActivedDecoratorBg };
+                                }
+                            }
                             span {
                                 display: none;
                             }

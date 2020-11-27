@@ -30,15 +30,7 @@ const SideBarItemStyle = styled.li`
             background: ${ props => props.theme.colors.colorfuls.primaryHover };
 
             .mainlist-title-container {
-                &:before {
-                    content: "";
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    width: 10px;
-                    height: 100%;
-                    background: ${ props => props.theme.colors.colorfuls.primaryHover };
-                }
+                
             }
         }
         ul {
@@ -51,15 +43,6 @@ const SideBarItemStyle = styled.li`
         &.actived {
             .mainlist-title-container {
                 background: ${ props => props.theme.colors.colorfuls.primaryHover };
-                &:before {
-                    content: "";
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    width: 10px;
-                    height: 100%;
-                    background: ${ props => props.theme.colors.colorfuls.sidebarItemActivedDecoratorBg };
-                }
             }
         }
     }
@@ -79,8 +62,8 @@ const SideBarItemStyle = styled.li`
         }     
         
         &:hover {
-                background: ${ props => props.theme.colors.colorfuls.primaryHover };
-            }
+            background: ${ props => props.theme.colors.colorfuls.primaryHover };
+        }
 
         .icon {
             position: relative;
@@ -170,10 +153,11 @@ function SidebarItem ({...props}) {
         if(isMainList) {
             return (
                 <div 
-                    className={`mainlist-title-container ${(currentActivedId && (mainListData.id === currentActivedId[0])) && isChildListOpen ? 'actived' : ''}`}
+                    className={`mainlist-title-container ${(currentActivedId && (mainListData.id === currentActivedId[0]))  ? 'actived' : ''}`}
                     onClick={(e) => {
                         e.stopPropagation()
 
+                        setIsChildListOpen(false)
                         setCurrentActivedId(mainListData.id)
 
                         // locked logic
@@ -194,6 +178,7 @@ function SidebarItem ({...props}) {
                     onClick={(e) => {
                         e.stopPropagation()
 
+                        setIsChildListOpen(false)
                         setCurrentActivedId(mainListData.id)
 
                         // locked logic
@@ -224,10 +209,15 @@ function SidebarItem ({...props}) {
             </ul>
         )
     }
+
+
+
     return (
         <SideBarItemStyle 
-            className={`${isUserAccessibleToSideBarItem(itemData, userType) ? '' : 'locked'} ${isChildListOpen && isSidebarOpen && itemData.id === currentActivedId[0] ? 'opened' : 'closed'} ${isChildListOpen && itemData.id === currentActivedId[0] ? 'actived' : ''}`}
-        >
+            className={`${isUserAccessibleToSideBarItem(itemData, userType) ? '' : 'locked'}
+            ${isChildListOpen && isSidebarOpen && itemData.id === currentActivedId[0] ? 'opened' : 'closed'} 
+            ${currentActivedId && itemData.id === currentActivedId[0] ? 'actived' : ''}
+        `}>
             {/* display list title */}
             {
                 renderMainList(isMainList, itemData)
