@@ -10,7 +10,7 @@ import { UserType } from '../../utils/constant'
 
 
 const initState = {
-    isSidebarOpen: true,
+    isSidebarOpen: false,
     currentActivedItemId: null,
     sidebarData: [
         {

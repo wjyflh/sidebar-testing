@@ -23,6 +23,20 @@ const switcherRotate = keyframes`
     }
 `
 
+const logoOpenKeyframe = keyframes`
+    0% {
+        transform: translateX(-100px) skewX(-10deg);
+    }
+
+    90% {
+        transform: translateX(0px) skewX(-10deg);
+    }
+
+    100% {
+        transform: translateX(0px) skewX(0deg);
+    }
+`
+
 // styles
 const SideBarStyle = styled.div`
     position: fixed;
@@ -43,16 +57,13 @@ const SideBarStyle = styled.div`
         .content {
             .top-container {
                 width: auto;
-                overflow: hidden;
                 padding: 50px 0px 0px 35px;
 
                 .logo {
                     position: relative;
                     left: 0%;
                     opacity: 1;
-                    transform: translateX(0px);
-                    transition: transform 0.3s 1s ease-in;
-                    transition: opacity 0s 0s ease-in;
+                    animation: ${logoOpenKeyframe} 0.4s ease-in-out;
                 }
                 
                 .sidebar-switcher {
@@ -154,7 +165,7 @@ const SideBarStyle = styled.div`
             position: relative;
             width: 100%;
             height: 60px;
-            z-index: 1;
+            z-index: 2;
 
             /* gradient decorator */
             &:before {
@@ -186,9 +197,6 @@ const SideBarStyle = styled.div`
             & > ul {
                 width: 400px;
                 height: auto;
-
-                & > li {
-                }
             }
         }
     }
@@ -201,7 +209,7 @@ const SideBarStyle = styled.div`
         height: 100vh;
         background: transparent;
         z-index: 0;
-        cursor: pointer;
+        cursor: default;
 
         &.actived {
             width: 100vw;

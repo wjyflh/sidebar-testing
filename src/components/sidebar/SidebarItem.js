@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 
 
@@ -9,6 +9,19 @@ import Icon from '../icon/Icon'
 
 // actions
 import { setSidebarItemCurrentActivedId } from '../../store/actions/uiAction'
+
+
+// keyframes
+const childListOpenKeyframes = keyframes`
+    0% {
+        transform: rotateX(60deg) translateY(-30px);
+    }
+
+    100% {
+        transform: rotateX(0deg) translateY(0px);
+    }
+`
+
 
 
 // styles
@@ -20,21 +33,15 @@ const SideBarItemStyle = styled.li`
 
     &.locked {
         opacity: 0.3;
-        .mainlist-title-container {
-            cursor: not-allowed;
-        }
+        pointer-events: none;
     }
 
     &.opened { 
         &.actived {
             background: ${ props => props.theme.colors.colorfuls.primaryHover };
-
-            .mainlist-title-container {
-                
-            }
         }
         ul {
-            /* transition-duration: 0.3s; */
+            animation: ${childListOpenKeyframes} 0.3s linear;
             height: auto;
         }
     }
@@ -63,6 +70,17 @@ const SideBarItemStyle = styled.li`
         
         &:hover {
             background: ${ props => props.theme.colors.colorfuls.primaryHover };
+
+            i.icon:before {
+                transition-duration: 0.3s;
+                transition-timing-function: linear;
+                line-height: 33px;
+                font-size: 33px;
+            }
+            span {
+                transition-duration: 0.3s;
+                padding-left: 10px;
+            }
         }
 
         .icon {
@@ -94,9 +112,13 @@ const SideBarItemStyle = styled.li`
             font-size: 20px;
             padding-left: 75px;
             cursor: pointer;
+            transition-duration: 0.3s;
 
             &.actived {
+                font-size: 21px;
+                font-weight: bold;
                 background: ${ props => props.theme.colors.colorfuls.primaryHover };
+                
                 &:before {
                     content: "";
                     position: absolute;
@@ -109,7 +131,10 @@ const SideBarItemStyle = styled.li`
             }
 
             &:hover {
+                font-size: 21px;
+                font-weight: bold;
                 background: ${ props => props.theme.colors.colorfuls.primaryHover };
+                padding-left: 80px;
             }
         } 
 
@@ -153,7 +178,7 @@ function SidebarItem ({...props}) {
         if(isMainList) {
             return (
                 <div 
-                    className={`mainlist-title-container ${(currentActivedId && (mainListData.id === currentActivedId[0]))  ? 'actived' : ''}`}
+                    className={`mainlist-title-container ${(currentActivedId && (mainListData.id === currentActivedId[0]) && isChildListOpen)  ? 'actived' : ''}`}
                     onClick={(e) => {
                         e.stopPropagation()
 
@@ -216,7 +241,7 @@ function SidebarItem ({...props}) {
         <SideBarItemStyle 
             className={`${isUserAccessibleToSideBarItem(itemData, userType) ? '' : 'locked'}
             ${isChildListOpen && isSidebarOpen && itemData.id === currentActivedId[0] ? 'opened' : 'closed'} 
-            ${currentActivedId && itemData.id === currentActivedId[0] ? 'actived' : ''}
+            ${isChildListOpen && currentActivedId && itemData.id === currentActivedId[0] ? 'actived' : ''}
         `}>
             {/* display list title */}
             {
