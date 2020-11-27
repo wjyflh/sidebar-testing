@@ -208,7 +208,7 @@ const SideBarStyle = styled.div`
         width: 100%;
         height: 100vh;
         background: transparent;
-        z-index: 0;
+        z-index: -1;
         cursor: default;
 
         &.actived {
